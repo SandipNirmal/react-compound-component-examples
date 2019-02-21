@@ -3,7 +3,7 @@ import React from "react";
 import TabsContext from "./TabContext";
 import Tab from "./Tab";
 
-const TabHeader = ({ name }) => {
+const TabHeader = () => {
   return (
     <div className="tabheader">
       <TabsContext.Consumer>
