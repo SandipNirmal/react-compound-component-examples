@@ -23,27 +23,27 @@ export default class AudioPlayerProvider extends React.PureComponent {
   progressRef = React.createRef()
 
   componentDidMount() {
-    // const {state: {totalTime}, setState} = this
-
     const audioNode = this.audioRef.current
+    const progressNode = this.progressRef.current
+
     this.setState({totalTime: audioNode.duration, remainingTime: audioNode.duration})
 
-    // this
-    //   .progressRef
-    //   .current
-    //   .addEventListener('click', function (e) {
-    //     var x = e.pageX - this.offsetLeft, // or e.offsetX (less support, though)
-    //         y = e.pageY - this.offsetTop, // or e.offsetY
-    //         clickedValue = (x * this.max / this.offsetWidth);
+    progressNode
+      .addEventListener('click', (e) => {
+        var x = e.pageX - progressNode.offsetLeft, // or e.offsetX (less support, though)
+            y = e.pageY - progressNode.offsetTop, // or e.offsetY
+            clickedValue = (x * progressNode.max / progressNode.offsetWidth);
 
-    //     console.log(x, y);
-    //     console.log('clickedValue', clickedValue);
+        console.log(x, y);
+        console.log('clickedValue', clickedValue);
 
-    //     const currentTime = clickedValue * totalTime
+        const currentTime = clickedValue * this.state.totalTime
 
-    //     console.log('currentTime', currentTime)
-    //     setState({currentTime})
-    //   })
+        console.log('currentTime', currentTime)
+        this.setState({currentTime})
+
+        this.seekTo(currentTime)
+      })
   }
 
   play = () => {
@@ -89,6 +89,11 @@ export default class AudioPlayerProvider extends React.PureComponent {
     isPlaying
       ? this.pause()
       : this.play()
+  }
+
+  seekTo = (time) => {
+    const audioNode = this.audioRef.current
+    audioNode.currentTime = time
   }
 
   render() {
