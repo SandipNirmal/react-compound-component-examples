@@ -15,17 +15,12 @@ export default class AudioPlayerProvider extends React.PureComponent {
 
   audioRef = React.createRef()
 
-  componentDidMount() {
-    const audioNode = this.audioRef.current;
-
-    this.setState({totalTime: audioNode.duration, remainingTime: audioNode.duration})
-  }
-
   play = () => {
     const audioNode = this.audioRef.current
-    this.setState({isPlaying: true, totalTime: audioNode.duration, remainingTime: audioNode.duration})
-
     audioNode.play()
+
+    const { currentTime, duration } = audioNode
+    this.setState({isPlaying: true, currentTime, remainingTime: duration - currentTime})
 
     timeInterval = setInterval(this.updateTime, UPDATE_TIME)
   }
@@ -34,7 +29,8 @@ export default class AudioPlayerProvider extends React.PureComponent {
     const audioNode = this.audioRef.current
     audioNode.pause()
 
-    this.setState({isPlaying: false})
+    const {currentTime, duration } = audioNode
+    this.setState({isPlaying: false, currentTime, remainingTime: duration - currentTime})
 
     clearInterval(timeInterval)
   }
@@ -43,15 +39,21 @@ export default class AudioPlayerProvider extends React.PureComponent {
     const {
       state: {
         currentTime,
-        totalTime,
-        remainingTime
-      }
+        totalTime
+      },
+      audioRef
     } = this
+
+    const {currentTime: currentPlaybackTime, duration} = audioRef.current
 
     if (currentTime < totalTime) {
       this.setState({
-        currentTime: currentTime + (UPDATE_TIME / 1000),
-        remainingTime: remainingTime - (UPDATE_TIME / 1000)
+        currentTime: currentPlaybackTime,
+        remainingTime: duration - currentPlaybackTime
+      })
+    } else if (currentTime >= totalTime) {
+      this.setState({
+        isPlaying: false
       })
     }
   }
@@ -68,14 +70,56 @@ export default class AudioPlayerProvider extends React.PureComponent {
 
   seekTo = (time) => {
     const audioNode = this.audioRef.current
-    audioNode.currentTime = time
+    audioNode.currentTime = time;
   }
 
   handleProgressBarClick = (progress) => {
+    const {state: {totalTime}} = this
     const currentTime = progress * this.state.totalTime
-    console.log('currentTime', currentTime)
-    this.setState({currentTime})
+
+    this.setState({currentTime, remainingTime: totalTime - currentTime})
+    
     this.seekTo(currentTime)
+  }
+
+  handleCanPlayThrough = (e) => {
+    const {duration} = e.currentTarget
+    this.setState({totalTime: duration, remainingTime: duration})
+  }
+
+  forwardBy10s = () => {
+    const {state: {currentTime, totalTime} } = this
+    let seekedTime = currentTime + 10    
+    seekedTime = seekedTime > totalTime ? totalTime : seekedTime
+
+    this.seekTo(seekedTime)
+    this.setState({
+      currentTime: seekedTime,
+      remainingTime: totalTime - seekedTime
+    })
+  }
+
+  rewindBy10s = () => {
+    const {state: { currentTime, totalTime }, isPlaying } = this
+    let seekedTime = currentTime - 10    
+    seekedTime = seekedTime < 0 ? 0 : seekedTime
+
+    this.seekTo(seekedTime)
+    this.setState({
+      currentTime: seekedTime,
+      remainingTime: totalTime - seekedTime
+    })
+
+    // Play Audio if rewinding from end of audio
+    !isPlaying && this.play()
+  }
+
+  setTime = (time) => {
+    const audioNode = this.audioRef.current
+    const {duration, currentTime} = audioNode
+
+    this.setState({currentTime: time, remainingTime: duration - currentTime})
+
   }
 
   render() {
@@ -89,7 +133,10 @@ export default class AudioPlayerProvider extends React.PureComponent {
         totalTime
       },
       togglePlay,
-      handleProgressBarClick
+      handleProgressBarClick,
+      handleCanPlayThrough,
+      forwardBy10s,
+      rewindBy10s
     } = this
 
     return (
@@ -100,17 +147,13 @@ export default class AudioPlayerProvider extends React.PureComponent {
         handleProgressBarClick
       }}>
         <div>Audio Player</div>
-        <div>Current Time: {getDurationInSeconds(currentTime)}</div>
+        <div>Current Time: {currentTime.toFixed(0)}</div>
         <div>Remaining Time: {getDurationInSeconds(remainingTime)}</div>
         <div>Progress: {getDurationInSeconds((currentTime / totalTime) * 100)}%</div>
-        {/* <progress
-          ref={this.progressRef}
-          id='progressBar'
-          min={0}
-          max={1}
-          value={getDurationInSeconds(currentTime / totalTime)}/> */}
         <button onClick={togglePlay}>Toggle</button>
-        <audio ref={this.audioRef} src={source}/> {this.props.children}
+        <button onClick={forwardBy10s}>FF10</button>
+        <button onClick={rewindBy10s}>RW10</button>
+        <audio ref={this.audioRef} src={source} onCanPlayThrough={handleCanPlayThrough}/> {this.props.children}
       </AudioPlayerContext.Provider>
     )
   }

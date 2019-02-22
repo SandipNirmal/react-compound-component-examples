@@ -34,7 +34,6 @@ export default class Tabs extends React.Component {
       state: { selectedTabIndex }
     } = this;
 
-    console.log(selectedTabIndex);
     return (
       <TabsContext.Provider
         value={{
