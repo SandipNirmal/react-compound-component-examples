@@ -1,15 +1,9 @@
 import React from 'react'
 
-// import {Mario_Bros_Medley} from './../resources'
 import AudioPlayerContext from './AudioPlayerContext'
+import {UPDATE_TIME, getDurationInSeconds} from './Utils'
 
 let timeInterval = ''
-
-const UPDATE_TIME = 500
-
-const getDurationInSeconds = (duration) => {
-  return duration.toFixed(2)
-}
 
 export default class AudioPlayerProvider extends React.PureComponent {
   state = {
@@ -20,30 +14,11 @@ export default class AudioPlayerProvider extends React.PureComponent {
   }
 
   audioRef = React.createRef()
-  progressRef = React.createRef()
 
   componentDidMount() {
-    const audioNode = this.audioRef.current
-    const progressNode = this.progressRef.current
+    const audioNode = this.audioRef.current;
 
     this.setState({totalTime: audioNode.duration, remainingTime: audioNode.duration})
-
-    progressNode
-      .addEventListener('click', (e) => {
-        var x = e.pageX - progressNode.offsetLeft, // or e.offsetX (less support, though)
-            y = e.pageY - progressNode.offsetTop, // or e.offsetY
-            clickedValue = (x * progressNode.max / progressNode.offsetWidth);
-
-        console.log(x, y);
-        console.log('clickedValue', clickedValue);
-
-        const currentTime = clickedValue * this.state.totalTime
-
-        console.log('currentTime', currentTime)
-        this.setState({currentTime})
-
-        this.seekTo(currentTime)
-      })
   }
 
   play = () => {
@@ -96,6 +71,13 @@ export default class AudioPlayerProvider extends React.PureComponent {
     audioNode.currentTime = time
   }
 
+  handleProgressBarClick = (progress) => {
+    const currentTime = progress * this.state.totalTime
+    console.log('currentTime', currentTime)
+    this.setState({currentTime})
+    this.seekTo(currentTime)
+  }
+
   render() {
     const {
       props: {
@@ -106,21 +88,27 @@ export default class AudioPlayerProvider extends React.PureComponent {
         remainingTime,
         totalTime
       },
-      togglePlay
+      togglePlay,
+      handleProgressBarClick
     } = this
 
     return (
-      <AudioPlayerContext.Provider value={{}}>
+      <AudioPlayerContext.Provider
+        value={{
+        ...this.state,
+        togglePlay,
+        handleProgressBarClick
+      }}>
         <div>Audio Player</div>
         <div>Current Time: {getDurationInSeconds(currentTime)}</div>
         <div>Remaining Time: {getDurationInSeconds(remainingTime)}</div>
         <div>Progress: {getDurationInSeconds((currentTime / totalTime) * 100)}%</div>
-        <progress
+        {/* <progress
           ref={this.progressRef}
           id='progressBar'
           min={0}
           max={1}
-          value={getDurationInSeconds(currentTime / totalTime)}/>
+          value={getDurationInSeconds(currentTime / totalTime)}/> */}
         <button onClick={togglePlay}>Toggle</button>
         <audio ref={this.audioRef} src={source}/> {this.props.children}
       </AudioPlayerContext.Provider>

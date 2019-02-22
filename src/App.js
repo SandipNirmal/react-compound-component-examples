@@ -7,6 +7,7 @@ import TabHeader from "./Tabs/TabHeader";
 import TabDetail from "./Tabs/TabDetails";
 
 import AudioPlayer from './AudioPlayer/AudioPlayerProvider'
+import AudioPlayerProgressBar from './AudioPlayer/AudioProgress'
 
 // import StyledButton from './UIComponents/StyledButton'
 
@@ -21,7 +22,9 @@ class App extends Component {
           <TabDetail/>
         </Tabs>
 
-        <AudioPlayer source={Mario_Bros_Medley}/>
+        <AudioPlayer source={Mario_Bros_Medley}>
+          <AudioPlayerProgressBar/>
+        </AudioPlayer>
 
         {/* <StyledButton>Normal Button</StyledButton>
         <StyledButton primary>Primary Button</StyledButton> */}
