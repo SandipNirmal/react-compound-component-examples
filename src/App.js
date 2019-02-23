@@ -2,14 +2,9 @@ import React, {Component} from 'react';
 
 import {Mario_Bros_Medley} from './resources'
 
-import Tabs from "./Tabs/TabProvider";
-import TabHeader from "./Tabs/TabHeader";
-import TabDetail from "./Tabs/TabDetails";
+import {Tabs, TabDetail, TabHeader} from './Tabs/index'
 
-import AudioPlayer from './AudioPlayer/AudioPlayerProvider'
-import AudioPlayerProgressBar from './AudioPlayer/AudioProgress'
-
-// import StyledButton from './UIComponents/StyledButton'
+import {AudioPlayer, Controls, ProgressBar, PlayPause, Play, Pause, ForwardRewind} from './AudioPlayer/index'
 
 import './App.css';
 
@@ -23,11 +18,8 @@ class App extends Component {
         </Tabs>
 
         <AudioPlayer source={Mario_Bros_Medley}>
-          <AudioPlayerProgressBar/>
+          <Controls />
         </AudioPlayer>
-
-        {/* <StyledButton>Normal Button</StyledButton>
-        <StyledButton primary>Primary Button</StyledButton> */}
       </div>
     );
   }
