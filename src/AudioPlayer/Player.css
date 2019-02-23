@@ -13,6 +13,29 @@
   align-items: center;
 }
 
-/* progress {
-  
-} */
+progress[value] {
+  /* Reset the default appearance */
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: whiteSmoke;
+  border-radius: 2px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25) inset;
+
+  width: 250px;
+  height: 20px;
+
+  margin: 0 10px;
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+progress[value]::-webkit-progress-value {
+  border-radius: 2px;
+  background-image: linear-gradient(left, #09c, #f44);
+
+  transition: all ease-in 0.2s;
+}
