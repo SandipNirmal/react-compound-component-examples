@@ -1,0 +1,18 @@
+.icons {
+  background: transparent;
+  border: none;
+  color: #9a9a9a;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+}
+
+/* progress {
+  
+} */

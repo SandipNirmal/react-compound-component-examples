@@ -2,9 +2,7 @@ import React from 'react'
 
 import {PlayPause, ForwardRewind, ProgressBar, CurrentTime, TotalTime} from './index'
 
-const AudioControls = () => <div style={{
-  display: 'flex'
-}}>
+const AudioControls = () => <div className='controls'>
   <PlayPause/>
   <ForwardRewind/>
   <CurrentTime/>

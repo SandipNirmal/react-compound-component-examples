@@ -22,7 +22,9 @@ export default class ProgressBar extends React.PureComponent {
 
     return (
       <AudioPlayerContext.Consumer>
-        {({currentTime, totalTime, handleProgressBarClick}) => <progress
+        {({currentTime, totalTime, handleProgressBarClick}) => {
+          const progressValue = (currentTime / totalTime)
+        return <progress
           ref={this.progressRef}
           id='progressBar'
           min={0}
@@ -30,7 +32,8 @@ export default class ProgressBar extends React.PureComponent {
           onClick={(e) => {
           progressBarClickHandler(e, handleProgressBarClick)
         }}
-          value={currentTime / totalTime}/>
+          value={isNaN(progressValue) ? 0 : progressValue}/>
+      }
 }
       </AudioPlayerContext.Consumer>
     )

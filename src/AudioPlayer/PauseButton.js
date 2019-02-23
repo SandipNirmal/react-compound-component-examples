@@ -4,7 +4,7 @@ import AudioPlayerContext from './AudioPlayerContext'
 
 const Pause = () => {
   return <AudioPlayerContext.Consumer>
-    {({pause}) => <button onClick={pause}>Pause</button>}
+    {({pause}) => <button onClick={pause} className='icons'>Pause</button>}
   </AudioPlayerContext.Consumer>
 }
 

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import {Mario_Bros_Medley} from './resources'
 
-import {Tabs, TabDetail, TabHeader} from './Tabs/index'
+// import {Tabs, TabDetail, TabHeader} from './Tabs/index'
 
 import {AudioPlayer, Controls, ProgressBar, PlayPause, Play, Pause, ForwardRewind} from './AudioPlayer/index'
 
@@ -12,14 +12,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Tabs>
+        {/* <Tabs>
           <TabHeader/>
           <TabDetail/>
-        </Tabs>
+        </Tabs> */}
 
         <AudioPlayer source={Mario_Bros_Medley}>
           <Controls />
         </AudioPlayer>
+
       </div>
     );
   }

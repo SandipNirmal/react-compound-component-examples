@@ -1,12 +1,13 @@
 import React from 'react'
+import {FaPlay, FaPause} from 'react-icons/fa'
 
 import AudioPlayerContext from './AudioPlayerContext'
 
 const PlayPasue = () => {
   return <AudioPlayerContext.Consumer>
-    {({togglePlay, isPlaying}) => <button onClick={togglePlay}>{isPlaying
-        ? 'Pause'
-        : 'Play'}</button>}
+    {({togglePlay, isPlaying}) => <button onClick={togglePlay} className='icons'>{isPlaying
+        ? <FaPause />
+        : <FaPlay />}</button>}
   </AudioPlayerContext.Consumer>
 }
 

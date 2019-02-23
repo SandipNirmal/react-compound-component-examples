@@ -3,6 +3,8 @@ import React from 'react'
 import AudioPlayerContext from './AudioPlayerContext'
 import {UPDATE_TIME} from './Utils'
 
+import './Player.css'
+
 let timeInterval = ''
 
 export default class AudioPlayerProvider extends React.PureComponent {
