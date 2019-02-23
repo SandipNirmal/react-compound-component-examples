@@ -5,6 +5,9 @@ import ForwardRewind from './ForwardRewindAudio'
 import PlayPause from './PlayPauseButton'
 import Play from './PlayButton'
 import Pause from './PauseButton'
+import CurrentTime from './CurrentTime'
+import TotalTime from './TotalTime'
+import RemainingTime from './RemainingTime'
 
 export {
   AudioPlayer,
@@ -13,5 +16,8 @@ export {
   ForwardRewind,
   Play,
   Pause,
-  PlayPause
+  PlayPause,
+  CurrentTime,
+  TotalTime,
+  RemainingTime
 }

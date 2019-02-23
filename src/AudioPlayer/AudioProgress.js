@@ -1,7 +1,6 @@
 import React from 'react'
 
 import AudioPlayerContext from './AudioPlayerContext'
-import {getDurationInSeconds} from './Utils'
 
 export default class ProgressBar extends React.PureComponent {
   progressRef = React.createRef()
@@ -31,7 +30,7 @@ export default class ProgressBar extends React.PureComponent {
           onClick={(e) => {
           progressBarClickHandler(e, handleProgressBarClick)
         }}
-          value={getDurationInSeconds(currentTime / totalTime)}/>
+          value={currentTime / totalTime}/>
 }
       </AudioPlayerContext.Consumer>
     )

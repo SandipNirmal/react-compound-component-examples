@@ -1,13 +1,15 @@
 import React from 'react'
 
-import PlayPause from './PlayPauseButton'
-import ForwardRewind from './ForwardRewindAudio'
-import ProgressBar from './AudioProgress'
+import {PlayPause, ForwardRewind, ProgressBar, CurrentTime, TotalTime} from './index'
 
-const AudioControls = () => <div style={{display: 'flex'}}>
+const AudioControls = () => <div style={{
+  display: 'flex'
+}}>
   <PlayPause/>
   <ForwardRewind/>
+  <CurrentTime/>
   <ProgressBar/>
+  <TotalTime/>
 </div>
 
 export default AudioControls

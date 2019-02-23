@@ -1,7 +1,7 @@
 import React from 'react'
 
 import AudioPlayerContext from './AudioPlayerContext'
-import {UPDATE_TIME, getDurationInSeconds} from './Utils'
+import {UPDATE_TIME} from './Utils'
 
 let timeInterval = ''
 
@@ -170,9 +170,6 @@ export default class AudioPlayerProvider extends React.PureComponent {
         source
       },
       state: {
-        currentTime,
-        remainingTime,
-        totalTime,
         title
       },
       play,
@@ -195,13 +192,6 @@ export default class AudioPlayerProvider extends React.PureComponent {
         forwardBy10s,
         rewindBy10s
       }}>
-        {/* <div>Audio Player</div>
-        <div>Current Time: {currentTime.toFixed(0)}</div>
-        <div>Remaining Time: {getDurationInSeconds(remainingTime)}</div>
-        <div>Progress: {getDurationInSeconds((currentTime / totalTime) * 100)}%</div>
-        <button onClick={togglePlay}>Toggle</button>
-        <button onClick={forwardBy10s}>FF10</button>
-        <button onClick={rewindBy10s}>RW10</button> */}
         <audio
           ref={this.audioRef}
           src={source}
