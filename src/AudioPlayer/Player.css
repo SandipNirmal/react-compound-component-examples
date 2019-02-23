@@ -1,3 +1,9 @@
+.player {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .icons {
   background: transparent;
   border: none;
@@ -6,6 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  display: inline;
 }
 
 .controls {

@@ -184,23 +184,27 @@ export default class AudioPlayerProvider extends React.PureComponent {
     } = this
 
     return (
-      <AudioPlayerContext.Provider
-        value={{
-        ...this.state,
-        togglePlay,
-        handleProgressBarClick,
-        play,
-        pause,
-        forwardBy10s,
-        rewindBy10s
-      }}>
-        <audio
-          ref={this.audioRef}
-          src={source}
-          onCanPlayThrough={handleCanPlayThrough}/>
-        <div style={{textAlign: 'left'}}>{title}</div>
-        {this.props.children}
-      </AudioPlayerContext.Provider>
+      <div className='player'>
+        <AudioPlayerContext.Provider
+          value={{
+          ...this.state,
+          togglePlay,
+          handleProgressBarClick,
+          play,
+          pause,
+          forwardBy10s,
+          rewindBy10s
+        }}>
+          <audio
+            ref={this.audioRef}
+            src={source}
+            onCanPlayThrough={handleCanPlayThrough}/>
+          <div style={{
+            textAlign: 'left'
+          }}>{title}</div>
+          {this.props.children}
+        </AudioPlayerContext.Provider>
+      </div>
     )
   }
 }
