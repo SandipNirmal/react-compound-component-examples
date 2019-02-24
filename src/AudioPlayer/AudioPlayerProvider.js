@@ -139,7 +139,7 @@ export default class AudioPlayerProvider extends React.PureComponent {
    * Handler for audio object error
    */
   handleError = (e) => {
-    this.setState({loadingError: true})
+    this.setState({loadingError: true, loading: false})
   }
 
   /**
