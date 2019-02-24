@@ -46,3 +46,7 @@ progress[value]::-webkit-progress-value {
 
   transition: all ease-in 0.2s;
 }
+
+.error {
+  color: red;
+}

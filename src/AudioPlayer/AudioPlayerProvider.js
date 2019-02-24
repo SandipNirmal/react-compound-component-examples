@@ -13,7 +13,9 @@ export default class AudioPlayerProvider extends React.PureComponent {
     currentTime: 0,
     totalTime: 0,
     remainingTime: 0,
-    title: ''
+    title: '',
+    loading: true,
+    loadingError: false
   }
 
   audioRef = React.createRef()
@@ -52,6 +54,9 @@ export default class AudioPlayerProvider extends React.PureComponent {
     clearInterval(timeInterval)
   }
 
+  /**
+   * Function to update progress bar
+   */
   updateTime = () => {
     const {
       state: {
@@ -73,6 +78,9 @@ export default class AudioPlayerProvider extends React.PureComponent {
     }
   }
 
+  /**
+   * Toggle playback. Play/Pause
+   */
   togglePlay = () => {
     const {state: {
         isPlaying
@@ -83,11 +91,21 @@ export default class AudioPlayerProvider extends React.PureComponent {
       : this.play()
   }
 
+  /**
+   * Seek playback to given time
+   *
+   * @param {number} time
+   */
   seekTo = (time) => {
     const audioNode = this.audioRef.current
     audioNode.currentTime = time;
   }
 
+  /**
+   * Handles progress bar click event. And seeks audio to particular time.
+   *
+   * @param {number} progress
+   */
   handleProgressBarClick = (progress) => {
     const {state: {
         totalTime
@@ -102,6 +120,9 @@ export default class AudioPlayerProvider extends React.PureComponent {
     this.seekTo(currentTime)
   }
 
+  /**
+   * Handler for audio objects canPlayThrough event.
+   */
   handleCanPlayThrough = (e) => {
     const {duration, src} = e.currentTarget
     const title = src.substring(src.lastIndexOf('/') + 1, src.length)
@@ -109,10 +130,21 @@ export default class AudioPlayerProvider extends React.PureComponent {
     this.setState({
       totalTime: duration,
       remainingTime: duration,
-      title: title.substring(0, title.indexOf('.'))
+      title: title.substring(0, title.indexOf('.')),
+      loading: false
     })
   }
 
+  /**
+   * Handler for audio object error
+   */
+  handleError = (e) => {
+    this.setState({loadingError: true})
+  }
+
+  /**
+   * Forward audio by 10seconds
+   */
   forwardBy10s = () => {
     const {
       state: {
@@ -132,6 +164,9 @@ export default class AudioPlayerProvider extends React.PureComponent {
     })
   }
 
+  /**
+   * Rewind audio by 10seconds
+   */
   rewindBy10s = () => {
     const {
       state: {
@@ -140,6 +175,7 @@ export default class AudioPlayerProvider extends React.PureComponent {
       },
       isPlaying
     } = this
+
     let seekedTime = currentTime - 10
     seekedTime = seekedTime < 0
       ? 0
@@ -155,6 +191,9 @@ export default class AudioPlayerProvider extends React.PureComponent {
     !isPlaying && this.play()
   }
 
+  /**
+   * Set time for component
+   */
   setTime = (time) => {
     const audioNode = this.audioRef.current
     const {duration, currentTime} = audioNode
@@ -172,7 +211,9 @@ export default class AudioPlayerProvider extends React.PureComponent {
         source
       },
       state: {
-        title
+        title,
+        loading,
+        loadingError
       },
       play,
       pause,
@@ -180,7 +221,8 @@ export default class AudioPlayerProvider extends React.PureComponent {
       handleProgressBarClick,
       handleCanPlayThrough,
       forwardBy10s,
-      rewindBy10s
+      rewindBy10s,
+      handleError
     } = this
 
     return (
@@ -198,11 +240,16 @@ export default class AudioPlayerProvider extends React.PureComponent {
           <audio
             ref={this.audioRef}
             src={source}
+            onError={handleError}
             onCanPlayThrough={handleCanPlayThrough}/>
           <div style={{
             textAlign: 'left'
           }}>{title}</div>
-          {this.props.children}
+          {loading
+            ? 'Loading...'
+            : loadingError
+              ? <span className='error'>Error Loading Audio.</span>
+              : this.props.children}
         </AudioPlayerContext.Provider>
       </div>
     )

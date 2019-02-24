@@ -2,7 +2,15 @@ import React, {Component} from 'react';
 
 import {Mario_Bros_Medley} from './resources'
 import {Tabs, TabDetail, TabHeader} from './Tabs/index'
-import {AudioPlayer, Controls, ProgressBar, PlayPause, Play, Pause, ForwardRewind} from './AudioPlayer/index'
+import {
+  AudioPlayer,
+  Controls,
+  ProgressBar,
+  PlayPause,
+  Play,
+  Pause,
+  ForwardRewind
+} from './AudioPlayer/index'
 
 import './App.css';
 
@@ -16,7 +24,7 @@ class App extends Component {
         </Tabs>
 
         <AudioPlayer source={Mario_Bros_Medley}>
-          <Controls />
+          <Controls/>
         </AudioPlayer>
 
       </div>
