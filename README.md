@@ -1,4 +1,4 @@
-# react-compound-component-examples
+# React Compound Component Example
 Set of Examples of React Compound Components Using React Context API
 
 ## Compound Component
