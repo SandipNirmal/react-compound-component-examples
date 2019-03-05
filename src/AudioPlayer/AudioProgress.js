@@ -11,8 +11,8 @@ export default class ProgressBar extends React.PureComponent {
       y = e.pageY - progressBarNode.offsetTop, // or e.offsetY
       progressValue = (x * progressBarNode.max / progressBarNode.offsetWidth);
 
-    console.log(x, y);
-    console.log('progressValue', progressValue);
+//     console.log(x, y);
+//     console.log('progressValue', progressValue);
 
     handleProgressBarClick(progressValue)
   }
